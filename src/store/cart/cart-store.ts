@@ -4,7 +4,8 @@ import { persist } from "zustand/middleware";
 
 interface State {
   cart: CartProduct[];
-
+  //
+  getTotalItems: () => number;
   // addToCart
   addProductToCart: (product: CartProduct) => void;
 }
@@ -39,10 +40,15 @@ export const useCartStore = create<State>()(
         // agregamos al cart los productos actualizados
         set({ cart: updateCartProducts });
       },
+      getTotalItems: () => {
+        const {cart}=get();
+
+        return cart.reduce((total,item)=>total+item.quantity,0);
+      },
     }),
     {
       name: "shoping-cart",
-      skipHydration:true,
+      // skipHydration: true,
     }
   )
 );
