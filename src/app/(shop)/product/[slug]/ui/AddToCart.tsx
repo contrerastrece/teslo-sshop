@@ -11,12 +11,18 @@ interface Props {
 export const AddToCart = ({ product }: Props) => {
   const [size, setSize] = useState<ValidSize | undefined>();
   const [qunatity, setQuantity] = useState<number>(1);
+  const [posted, setPosted] = useState(false);
 
   const addToCart = () => {
+    setPosted(true);
+    if (!size) return;
     console.log({ size, qunatity });
   };
   return (
     <div>
+      {posted && !size && (
+        <p className="text-red-500 border  mb-0 fade-in">Seleccione una Talla</p>
+      )}
       {/* Selector de Tallas */}
       <SizeSelector
         selectedSize={size}
