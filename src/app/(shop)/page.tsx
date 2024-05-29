@@ -1,4 +1,4 @@
-export const revalidate=60;
+export const revalidate = 60;
 
 import { getPaginatedProductsWithImages } from "@/actions";
 import { Pagination, ProductGrid, Title } from "@/components";
@@ -13,12 +13,12 @@ interface Props {
   };
 }
 export default async function HomePage({ searchParams }: Props) {
-  console.log({ searchParams }, "🚩");
-  const gender = searchParams.gender;
+  // console.log({ searchParams }, "🚩");
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
 
-  const { products, currentPage, totalPages } =
-    await getPaginatedProductsWithImages({ page });
+  const { products, totalPages } = await getPaginatedProductsWithImages({
+    page,
+  });
   // console.log(totalPages, "🟢");
   if (products.length === 0) {
     redirect("/");

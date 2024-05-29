@@ -1,15 +1,14 @@
-import { QuantitySelector, Title } from "@/components";
-import { initialData } from "@/seed/seed";
-import Image from "next/image";
+import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React from "react";
-
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-];
+import { QuantitySelector, Title } from "@/components";
+import { initialData } from "@/seed/seed";
+import { ProductInCart } from "./ui/ProductInCart";
+// const productsInCart = [
+//   initialData.products[0],
+//   initialData.products[1],
+//   initialData.products[2],
+// ];
 
 const CartPage = () => {
   // redirect('/empty')
@@ -29,29 +28,7 @@ const CartPage = () => {
 
             {/* Items */}
 
-            {productsInCart.map((product) => (
-              <div className="flex" key={product.slug}>
-                <Image
-                  src={`/products/${product.images[0]}`}
-                  alt={product.title}
-                  height={100}
-                  width={100}
-                  className="mr-5 rounded"
-                  style={{
-                    // objectFit:'contain'
-                    width: "100px",
-                    height: "100px",
-                  }}
-                />
-                <div className="">
-                  <p className="">{product.title}</p>
-                  <p className="">$ {product.price}</p>
-                  <QuantitySelector quantity={3} />
-
-                  <button className="underline mt-3">Remover</button>
-                </div>
-              </div>
-            ))}
+            <ProductInCart />
           </div>
           {/* Sumary | CheckOut */}
           <div className="bg-white rounded-xl shadow-xl p-7 h-fit ">
