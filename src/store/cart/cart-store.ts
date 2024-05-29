@@ -4,12 +4,14 @@ import { persist } from "zustand/middleware";
 
 interface State {
   cart: CartProduct[];
-  //
+  //get
   getTotalItems: () => number;
   // addToCart
   addProductToCart: (product: CartProduct) => void;
   // update
   updateProductToCart: (product: CartProduct, quantity: number) => void;
+  // delete
+  removeProductFromCart: (product: CartProduct) => void;
 }
 
 export const useCartStore = create<State>()(
@@ -58,6 +60,13 @@ export const useCartStore = create<State>()(
           return item;
         });
         set({ cart: updateCardProducts });
+      },
+      removeProductFromCart: (product: CartProduct) => {
+        const { cart } = get();
+        const removeProduct = cart.filter((item) => {
+          return !(item.id == product.id && item.size == product.size);
+        });
+        set({ cart: removeProduct });
       },
     }),
     {
