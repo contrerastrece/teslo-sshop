@@ -1,9 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { QuantitySelector, Title } from "@/components";
-import { initialData } from "@/seed/seed";
+import { Title } from "@/components";
+// import { initialData } from "@/seed/seed";
 import { ProductInCart } from "./ui/ProductInCart";
+import { OrderSumary } from "./ui/OrderSumary";
 // const productsInCart = [
 //   initialData.products[0],
 //   initialData.products[1],
@@ -27,35 +28,10 @@ const CartPage = () => {
             </Link>
 
             {/* Items */}
-
             <ProductInCart />
           </div>
           {/* Sumary | CheckOut */}
-          <div className="bg-white rounded-xl shadow-xl p-7 h-fit ">
-            <h2 className="text-2xl">Resumen de Orden</h2>
-            <div className="grid grid-cols-2">
-              <span>No. Productos</span>
-              <span className="text-right">3 artículos </span>
-
-              <span>Subtotal</span>
-              <span className="text-right">$ 100 </span>
-
-              <span>Impuestos (15%)</span>
-              <span className="text-right">$ 100 </span>
-
-              <span className="text-2xl mt-5">Total</span>
-              <span className="text-2xl mt-5 text-right">$ 100 </span>
-            </div>
-
-            <div className="mt-5 mb-2">
-              <Link
-                href={"/checkout/address"}
-                className="flex btn-primary justify-center"
-              >
-                CheckOut
-              </Link>
-            </div>
-          </div>
+          <OrderSumary />
         </div>
       </div>
     </div>

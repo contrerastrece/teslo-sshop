@@ -6,6 +6,13 @@ interface State {
   cart: CartProduct[];
   //get
   getTotalItems: () => number;
+  // orderSumary
+  getOrderSumary: () => {
+    total: number;
+    tax: number;
+    subtotal: number;
+    itemsInCart: number;
+  };
   // addToCart
   addProductToCart: (product: CartProduct) => void;
   // update
@@ -49,6 +56,24 @@ export const useCartStore = create<State>()(
 
         return cart.reduce((total, item) => total + item.quantity, 0);
       },
+
+      getOrderSumary: () => {
+        const { cart } = get();
+        const subtotal = cart.reduce(
+          (subtotal, product) => product.price * product.quantity + subtotal,
+          0
+        );
+        const tax = subtotal * 0.15;
+        const total = subtotal + tax;
+
+        const itemsInCart = cart.reduce(
+          (total, item) => total + item.quantity,
+          0
+        );
+
+        return { subtotal, tax, total, itemsInCart };
+      },
+
       updateProductToCart: (product: CartProduct, quantity: number) => {
         // console.log(product, quantity);
         const { cart } = get();
