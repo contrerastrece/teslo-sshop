@@ -1,17 +1,31 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useCartStore } from "@/store";
 import { currencyFormat } from "@/utils";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
 
 export const OrderSumary = () => {
   const [loaded, setLoaded] = useState(false);
+  const router = useRouter();
 
-  const orderSumary = useCartStore((state) => state.getOrderSumary());
+  const { itemsInCart, total, tax, subtotal } = useCartStore((state) =>
+    state.getOrderSumary()
+  );
 
   useEffect(() => {
     setLoaded(true);
   }, []);
+
+  // useEffect(() => {
+  //   if (itemsInCart === 0 && loaded === true) {
+  //     router.replace("/empty");
+  //   }
+  // }, [total, loaded]);
+
+  if(itemsInCart === 0 && loaded === true) {
+    redirect('/empty');
+  }
 
   if (!loaded) return <>Loading...</>;
 
@@ -20,19 +34,17 @@ export const OrderSumary = () => {
       <h2 className="text-2xl">Resumen de Orden</h2>
       <div className="grid grid-cols-2">
         <span>N°. Productos</span>
-        <span className="text-right">{orderSumary.itemsInCart} artículos </span>
+        <span className="text-right">{itemsInCart} artículos </span>
 
         <span>Subtotal</span>
-        <span className="text-right">
-          {currencyFormat(orderSumary.subtotal)}{" "}
-        </span>
+        <span className="text-right">{currencyFormat(subtotal)}</span>
 
         <span>Impuestos (15%)</span>
-        <span className="text-right">{currencyFormat(orderSumary.tax)} </span>
+        <span className="text-right">{currencyFormat(tax)} </span>
 
         <span className="text-2xl mt-5">Total</span>
         <span className="text-2xl mt-5 text-right">
-          {currencyFormat(orderSumary.total)}{" "}
+          {currencyFormat(total)}
         </span>
       </div>
 

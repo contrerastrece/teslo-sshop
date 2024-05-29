@@ -14,6 +14,7 @@ export const TopMenu = () => {
     setLoad(true);
   }, []);
 
+
   return (
     <nav className="flex px-5 justify-between items-center w-full">
       {/* logo */}
@@ -51,10 +52,10 @@ export const TopMenu = () => {
         <Link href={"/search"}>
           <IoSearchOutline className="w-5 h-5" />
         </Link>
-        <Link href={"/cart"}>
+        <Link href={TotalItems === 0 && load ? "/empty" : "/cart"}>
           <div className="relative">
             {load && TotalItems > 0 && (
-              <span className="absolute text-xs rounded-full -top-2 -right-2 bg-blue-700 text-white px-1 font-bold">
+              <span className="fade-in absolute text-xs rounded-full -top-2 -right-2 bg-blue-700 text-white px-1 font-bold">
                 {TotalItems}
               </span>
             )}
