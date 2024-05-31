@@ -13,6 +13,7 @@ const ProfilePage = async () => {
     <div>
       <Title title="Perfil" />
       <pre>{JSON.stringify(session, null, 2)}</pre>
+      <h3 className="text-5xl">{session?.user.role}</h3>
     </div>
   );
 };

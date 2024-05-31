@@ -10,6 +10,22 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
     newUser: "auth/newUser",
     error: "/error",
   },
+
+  callbacks: {
+    jwt({ token, user }) {
+      // console.log({token, user})
+      if (user) {
+        token.data = user;
+      }
+      return token;
+    },
+    session({ session, token, user }) {
+      console.log({ session, token, user });
+      session.user=token.data as any;
+      return session;
+    },
+  },
+
   providers: [
     Credentials({
       async authorize(credentials) {
@@ -34,7 +50,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
 
         // Regresar el Usuario sin la contraseña
         const { password: _, ...rest } = user;
-        console.log(rest);
+        // console.log(rest);
         return rest;
       },
     }),
