@@ -4,7 +4,7 @@ import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import prisma from "./lib/prisma";
 
-export const { signIn, signOut, auth } = NextAuth({
+export const { signIn, signOut, auth, handlers } = NextAuth({
   pages: {
     signIn: "/authLogin",
     newUser: "auth/newUser",

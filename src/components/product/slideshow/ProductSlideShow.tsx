@@ -27,8 +27,8 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
       <Swiper
         style={
           {
-            "--swiper-navigation-color": "#fff",
-            "--swiper-pagination-color": "#fff",
+            "--swiper-navigation-color": "#2563EB",
+            "--swiper-pagination-color": "#2563EB",
           } as React.CSSProperties
         }
         spaceBetween={10}
@@ -36,7 +36,7 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
         autoplay={{delay:2500}}
         thumbs={{ swiper: thumbsSwiper&&!thumbsSwiper.destroyed?thumbsSwiper:null }}
         modules={[FreeMode, Navigation, Thumbs,Autoplay]}
-        className="mySwiper2"
+        className="mySwiper2  max-h-svh"
       >
         {images.map((img) => (
           <SwiperSlide key={img}>
@@ -45,7 +45,7 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
               width={1024}
               height={800}
               alt={title}
-              className="rounded-md object-fill"
+              className="rounded-md object-fill  max-h-svh"
             />
           </SwiperSlide>
         ))}
@@ -67,7 +67,7 @@ export const ProductSlideShow = ({ images, title, className }: Props) => {
               width={300}
               height={300}
               alt={title}
-              className="rounded-md"
+              className="rounded-md cursor-pointer"
             />
           </SwiperSlide>
         ))}

@@ -2,6 +2,7 @@
 import { logout } from "@/actions";
 import { useUIStore } from "@/store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import {
   IoCloseOutline,
@@ -17,7 +18,10 @@ import {
 export const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const closeSideMenu = useUIStore((state) => state.closeSideMenu);
+  const { data: session } = useSession();
+  const isAutenticated = !!session?.user;
 
+  console.log(session);
   return (
     <div className="">
       {/* background */}
@@ -74,20 +78,24 @@ export const Sidebar = () => {
           <IoTicketOutline size={20} />
           <span className="ml-3 text-xl">Ordenes</span>
         </Link>
-        <Link
-          href="auth/login"
-          className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
-        >
-          <IoLogInOutline size={20} />
-          <span className="ml-3 text-xl">Ingresar</span>
-        </Link>
-        <button
-          className="flex  w-full items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
-          onClick={() => logout()}
-        >
-          <IoLogOutOutline size={20} />
-          <span className="ml-3 text-xl">Salir</span>
-        </button>
+        {!isAutenticated ? (
+          <Link
+            href="auth/login"
+            className="flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+            onClick={() => closeSideMenu()}
+          >
+            <IoLogInOutline size={20} />
+            <span className="ml-3 text-xl">Ingresar</span>
+          </Link>
+        ) : (
+          <button
+            className="flex  w-full items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all"
+            onClick={() => logout()}
+          >
+            <IoLogOutOutline size={20} />
+            <span className="ml-3 text-xl">Salir</span>
+          </button>
+        )}
 
         {/* Line Separator  */}
         <div className="w-full h-px bg-gray-200 my-5"></div>
