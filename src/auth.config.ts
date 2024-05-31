@@ -14,13 +14,14 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
   callbacks: {
     jwt({ token, user }) {
       // console.log({token, user})
+      // añadimos la los datos del usuarioa a data en token
       if (user) {
         token.data = user;
       }
       return token;
     },
     session({ session, token, user }) {
-      console.log({ session, token, user });
+      // console.log({ session, token, user });
       session.user=token.data as any;
       return session;
     },
