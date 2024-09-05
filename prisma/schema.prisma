@@ -47,6 +47,11 @@ model User {
   image         String?
 }
 
+model Country {
+  id   String @id
+  name String
+}
+
 enum Size {
   XS
   S
