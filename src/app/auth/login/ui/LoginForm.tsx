@@ -1,13 +1,20 @@
 "use client";
-import { authenticate } from "@/actions";
-import clsx from "clsx";
-import Link from "next/link";
+import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import clsx from "clsx";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { authenticate } from "@/actions";
 
 export const LoginForm = () => {
+  const searchParamas=useSearchParams()
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
-  // console.log(errorMessage);
+  console.log(errorMessage);
+useEffect(() => {
+  
+}, []);
+  
   return (
     <form action={dispatch} className="flex flex-col">
       <label htmlFor="email">Correo electrónico</label>

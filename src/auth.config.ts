@@ -1,17 +1,22 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import bcryptjs from "bcryptjs";
 import prisma from "./lib/prisma";
 
-export const { signIn, signOut, auth, handlers } = NextAuth({
+export const authConfig = {
   pages: {
-    signIn: "/authLogin",
-    newUser: "auth/newUser",
+    signIn: "/auth/login",
+    newUser: "/auth/new-account",
     error: "/error",
   },
 
   callbacks: {
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user;
+
+      return true;
+    },
     jwt({ token, user }) {
       // console.log({token, user})
       // añadimos la los datos del usuarioa a data en token
@@ -22,7 +27,7 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
     },
     session({ session, token, user }) {
       // console.log({ session, token, user });
-      session.user=token.data as any;
+      session.user = token.data as any;
       return session;
     },
   },
@@ -56,4 +61,8 @@ export const { signIn, signOut, auth, handlers } = NextAuth({
       },
     }),
   ],
-});
+
+  secret: process.env.AUTH_SECRET,
+} satisfies NextAuthConfig;
+
+export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);
