@@ -37,15 +37,13 @@ export const AddressForm = ({ countries }: Props) => {
   const setAddress = useAddressStore((state) => state.setAddress);
   const address = useAddressStore((state) => state.address);
 
-
   useEffect(() => {
     if (address.firstName) {
       reset(address);
     }
-  }, [address]);
+  }, [address, reset]);
 
   const onSubmit = (data: FormInputs) => {
-    console.log(data);
     setAddress(data);
   };
 

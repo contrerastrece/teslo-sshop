@@ -45,11 +45,32 @@ model User {
   password      String
   role          Role      @default(user)
   image         String?
+
+  // relationship
+  userAddress UserAddress?
 }
 
 model Country {
-  id   String @id
-  name String
+  id          String        @id
+  name        String
+  UserAddress UserAddress[]
+}
+
+model UserAddress {
+  id         String  @id @default(uuid())
+  firstName  String
+  lastName   String
+  address    String
+  adress2    String?
+  postalCode String
+  phone      String
+
+  // relationship
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String
+
+  userAddress User   @relation(fields: [userId], references: [id])
+  userId      String @unique
 }
 
 enum Size {
