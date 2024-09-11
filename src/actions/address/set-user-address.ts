@@ -13,6 +13,7 @@ export const setUserAddress = async (address: Address, userId: string) => {
     };
   } catch (error) {
     console.log(error);
+
     return {
       ok: false,
       message: "No se pudo grabar la dirección",
@@ -32,6 +33,7 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
       address: address.address,
       address2: address.address2,
       countryId: address.country,
+      city: address.city,
       firstName: address.firstName,
       lastName: address.lastName,
       phone: address.phone,
@@ -43,7 +45,6 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
       const newAddress = await prisma.userAddress.create({
         data: addressToSave,
       });
-
       return newAddress;
     }
 
@@ -56,5 +57,6 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
     return updateAddress;
   } catch (error) {
     console.log(error);
+    throw new Error("No se pudo grabar la dirección");
   }
 };

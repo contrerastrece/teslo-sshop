@@ -4,7 +4,7 @@ CREATE TABLE "UserAddress" (
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "address" TEXT NOT NULL,
-    "adress2" TEXT,
+    "address2" TEXT,
     "postalCode" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
     "countryId" TEXT NOT NULL,

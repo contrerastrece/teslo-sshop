@@ -1,4 +1,5 @@
 export interface Address {
+  id?: string;
   firstName: string;
   lastName: string;
   address: string;
@@ -6,4 +7,6 @@ export interface Address {
   postalCode: string;
   country: string;
   phone: string;
+  city: string;
+  userId?: string;
 }
