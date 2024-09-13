@@ -4,18 +4,41 @@ import Link from "next/link";
 import { useAddressStore, useCartStore } from "@/store";
 import { AddressForm } from "../../address/ui/AddressForm";
 import { currencyFormat } from "@/utils";
+import clsx from "clsx";
+import { sleep } from "@/utils/sleep";
+import { placeOrder } from "@/actions";
 
 export const PlaceOrder = () => {
   const [loaded, setLoaded] = useState(false);
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   const addres = useAddressStore((state) => state.address);
   const { itemsInCart, subtotal, tax, total } = useCartStore((state) =>
     state.getOrderSumary()
   );
+  const cart = useCartStore((state) => state.cart);
 
   useEffect(() => {
     setLoaded(true);
   }, []);
+
+  const onPlaceOrder = async () => {
+    setIsPlacingOrder(true);
+
+    const productToOrder = cart.map((product) => ({
+      productId: product.id,
+      quantity: product.quantity,
+      size: product.size,
+    }));
+
+    // console.log({ addres, productToOrder });
+    const response = await placeOrder(productToOrder, addres);
+
+    console.log(response);
+    // TODO:server_actions
+    // await sleep(2);
+    setIsPlacingOrder(false);
+  };
 
   if (!loaded) {
     return <p>Loading...</p>;
@@ -68,7 +91,14 @@ export const PlaceOrder = () => {
         </p>
 
         {/* <Link href={"/orders/123"} className="flex btn-primary justify-center"> */}
-        <button className="flex btn-primary justify-center">
+        <button
+          className={clsx({
+            "btn-primary": !isPlacingOrder,
+            "btn-disabled": isPlacingOrder,
+          })}
+          onClick={onPlaceOrder}
+          disabled={isPlacingOrder}
+        >
           Colocar Orden
         </button>
       </div>
