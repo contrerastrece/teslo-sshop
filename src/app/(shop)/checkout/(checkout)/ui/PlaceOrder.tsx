@@ -7,16 +7,20 @@ import { currencyFormat } from "@/utils";
 import clsx from "clsx";
 import { sleep } from "@/utils/sleep";
 import { placeOrder } from "@/actions";
+import { useRouter } from "next/navigation";
 
 export const PlaceOrder = () => {
+  const router = useRouter();
   const [loaded, setLoaded] = useState(false);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const addres = useAddressStore((state) => state.address);
   const { itemsInCart, subtotal, tax, total } = useCartStore((state) =>
     state.getOrderSumary()
   );
   const cart = useCartStore((state) => state.cart);
+  const clearCart = useCartStore((state) => state.clearCart);
 
   useEffect(() => {
     setLoaded(true);
@@ -37,7 +41,18 @@ export const PlaceOrder = () => {
     console.log(response);
     // TODO:server_actions
     // await sleep(2);
-    setIsPlacingOrder(false);
+
+    if (!response.ok) {
+      setIsPlacingOrder(false);
+      setErrorMessage(response.message);
+      return;
+    }
+
+    // * si todo sale bien (limpiamos el cart)
+    clearCart();
+
+    // redireccionamos
+    router.replace("/orders/" + response.order);
   };
 
   if (!loaded) {
@@ -75,7 +90,7 @@ export const PlaceOrder = () => {
         </span>
       </div>
 
-      <div className="mt-5 mb-2">
+      <div className="mt-5 mb-2 w-full">
         {/* Disclaimer */}
         <p className="mb-5">
           <span className="text-xs">
@@ -91,6 +106,7 @@ export const PlaceOrder = () => {
         </p>
 
         {/* <Link href={"/orders/123"} className="flex btn-primary justify-center"> */}
+        <span className="text-red-500">{errorMessage}</span> 
         <button
           className={clsx({
             "btn-primary": !isPlacingOrder,
